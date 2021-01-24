@@ -12,12 +12,13 @@ import (
 )
 
 type device struct {
-	serial_number string
-	target_date time.Time
-	temperature float32
-	humidity float32
-	illumination float32
-	movement float32
+	device_id int `db:"device_id primarykey, autoincrement"`
+	serial_number string `db:"serial_number"`
+	target_date time.Time `db:"target_date"`
+	temperature float32 `db:"temperature"`
+	humidity float32 `db:"humidity"`
+	illumination float32 `db:"illumination"`
+	movement float32 `db:"movement"`
 }
 
 func main()  {
@@ -44,12 +45,12 @@ func main()  {
 	}
 	
 	device := device {
-		devices[0].Serial_number,
-		time.Now(),
-		devices[0].Newest_events.Te.Val,
-		devices[0].Newest_events.Hu.Val,
-		devices[0].Newest_events.Il.Val,
-		devices[0].Newest_events.Mo.Val,
+		serial_number: devices[0].Serial_number,
+		target_date: time.Now(),
+		temperature: devices[0].Newest_events.Te.Val,
+		humidity: devices[0].Newest_events.Hu.Val,
+		illumination: devices[0].Newest_events.Il.Val,
+		movement: devices[0].Newest_events.Mo.Val,
 	}
 
 	err = tx.Insert(&device)
