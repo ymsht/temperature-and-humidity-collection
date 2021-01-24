@@ -28,14 +28,14 @@ func main()  {
 	}
 	fmt.Printf("%f\n", devices[0].Newest_events.Te.Val)
 
-	db, err := sql.Open("mysql", ":@tcp(localhost:3306)/db?parseTime=true")
+	db, err := sql.Open("mysql", "user:password@tcp(localhost:3306)/db?parseTime=true")
 	if err != nil {
 		fmt.Printf(err.Error())
 	}
 
 	dialect := gorp.MySQLDialect{Engine: "InnoDB", Encoding: "UTF8"}
 	dbmap := &gorp.DbMap{Db: db, Dialect: dialect}
-	dbmap.AddTableWithName(device{}, "deveices")
+	dbmap.AddTableWithName(device{}, "deveices").SetKeys(false, "device_id")
 	defer dbmap.Db.Close()
 
 	tx, err := dbmap.Begin()
