@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  temperature-and-humidity-collection:
+    build: .
+    tty: true
+    volumes:
+      - .:/go/src/temperature-and-humidity-collection
+
