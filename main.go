@@ -43,10 +43,13 @@ func main()  {
 	if err != nil {
 		fmt.Printf(err.Error())
 	}
+
+	jst, _ := time.LoadLocation("Asia/Tokyo")
+	now, _ := time.ParseInLocation("2006-01-02 15:04:05", "2018-01-01 00:00:00", jst)
 	
 	device := Device {
 		SerialNumber: devices[0].Serial_number,
-		TargetDate: time.Now(),
+		TargetDate: now,
 		Temperature: devices[0].Newest_events.Te.Val,
 		Humidity: devices[0].Newest_events.Hu.Val,
 		Illumination: devices[0].Newest_events.Il.Val,
