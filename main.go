@@ -36,7 +36,7 @@ func main()  {
 
 	dialect := gorp.MySQLDialect{Engine: "InnoDB", Encoding: "UTF8"}
 	dbmap := &gorp.DbMap{Db: db, Dialect: dialect}
-	dbmap.AddTableWithName(Device{}, "deveices").SetKeys(false, "device_id")
+	dbmap.AddTableWithName(Device{}, "deveices").SetKeys(false, "Device_id")
 	defer dbmap.Db.Close()
 
 	tx, err := dbmap.Begin()
