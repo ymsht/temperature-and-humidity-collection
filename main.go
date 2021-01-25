@@ -11,14 +11,14 @@ import (
 	sdk "github.com/ymsht/nature-remo-sdk"
 )
 
-type device struct {
-	device_id int `db:"device_id primarykey, autoincrement"`
-	serial_number string `db:"serial_number"`
-	target_date time.Time `db:"target_date"`
-	temperature float32 `db:"temperature"`
-	humidity float32 `db:"humidity"`
-	illumination float32 `db:"illumination"`
-	movement float32 `db:"movement"`
+type Device struct {
+	Device_id int `db:"device_id primarykey, autoincrement"`
+	SerialNumber string `db:"serial_number"`
+	TargetDate time.Time `db:"target_date"`
+	Temperature float32 `db:"temperature"`
+	Humidity float32 `db:"humidity"`
+	Illumination float32 `db:"illumination"`
+	Movement float32 `db:"movement"`
 }
 
 func main()  {
@@ -36,7 +36,7 @@ func main()  {
 
 	dialect := gorp.MySQLDialect{Engine: "InnoDB", Encoding: "UTF8"}
 	dbmap := &gorp.DbMap{Db: db, Dialect: dialect}
-	dbmap.AddTableWithName(device{}, "deveices").SetKeys(false, "device_id")
+	dbmap.AddTableWithName(Device{}, "deveices").SetKeys(false, "device_id")
 	defer dbmap.Db.Close()
 
 	tx, err := dbmap.Begin()
@@ -44,13 +44,13 @@ func main()  {
 		fmt.Printf(err.Error())
 	}
 	
-	device := device {
-		serial_number: devices[0].Serial_number,
-		target_date: time.Now(),
-		temperature: devices[0].Newest_events.Te.Val,
-		humidity: devices[0].Newest_events.Hu.Val,
-		illumination: devices[0].Newest_events.Il.Val,
-		movement: devices[0].Newest_events.Mo.Val,
+	device := Device {
+		SerialNumber: devices[0].Serial_number,
+		TargetDate: time.Now(),
+		Temperature: devices[0].Newest_events.Te.Val,
+		Humidity: devices[0].Newest_events.Hu.Val,
+		Illumination: devices[0].Newest_events.Il.Val,
+		Movement: devices[0].Newest_events.Mo.Val,
 	}
 
 	err = tx.Insert(&device)
