@@ -12,7 +12,7 @@ import (
 )
 
 type Device struct {
-	Device_id int `db:"device_id primarykey, autoincrement"`
+	Device_id int `db:"device_id"`
 	SerialNumber string `db:"serial_number"`
 	TargetDate time.Time `db:"target_date"`
 	Temperature float32 `db:"temperature"`
