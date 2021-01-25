@@ -27,7 +27,6 @@ func main()  {
 	if err != nil {
 		fmt.Printf(err.Error())
 	}
-	fmt.Printf("%f\n", devices[0].Newest_events.Te.Val)
 
 	db, err := sql.Open("mysql", "user:password@tcp(localhost:3306)/db?parseTime=true")
 	if err != nil {
@@ -45,11 +44,10 @@ func main()  {
 	}
 
 	jst, _ := time.LoadLocation("Asia/Tokyo")
-	now, _ := time.ParseInLocation("2006-01-02 15:04:05", "2018-01-01 00:00:00", jst)
 	
 	device := Device {
 		SerialNumber: devices[0].Serial_number,
-		TargetDate: now,
+		TargetDate: time.Now().In(jst),
 		Temperature: devices[0].Newest_events.Te.Val,
 		Humidity: devices[0].Newest_events.Hu.Val,
 		Illumination: devices[0].Newest_events.Il.Val,
