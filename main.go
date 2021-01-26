@@ -48,7 +48,6 @@ func main()  {
 	if err != nil {
     	fmt.Printf(err.Error())
 	}
-	fmt.Printf("%s\n", utc.In(jst))
 	
 	device := Device {
 		SerialNumber: devices[0].Serial_number,
