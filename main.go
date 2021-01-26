@@ -35,7 +35,7 @@ func main()  {
 		fmt.Printf(err.Error())
 	}
 
-	db, err := sql.Open("mysql", "user:password@tcp(localhost:3306)/db?parseTime=true")
+	db, err := sql.Open("mysql", "user:password@tcp(localhost:3306)/db?parseTime=true&loc=Asia%2FTokyo")
 	if err != nil {
 		fmt.Printf(err.Error())
 	}
