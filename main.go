@@ -60,12 +60,12 @@ func main()  {
 	}
 	
 	device := Device {
-		SerialNumber: devices[0].Serial_number,
+		SerialNumber: devices[0].SerialNumber,
 		TargetDate: utc.In(jst),
-		Temperature: devices[0].Newest_events.Te.Val,
-		Humidity: devices[0].Newest_events.Hu.Val,
-		Illumination: devices[0].Newest_events.Il.Val,
-		Movement: devices[0].Newest_events.Mo.Val,
+		Temperature: devices[0].NewestEvents.Te.Val,
+		Humidity: devices[0].NewestEvents.Hu.Val,
+		Illumination: devices[0].NewestEvents.Il.Val,
+		Movement: devices[0].NewestEvents.Mo.Val,
 	}
 
 	err = tx.Insert(&device)
