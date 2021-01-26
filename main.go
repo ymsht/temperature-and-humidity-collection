@@ -43,11 +43,15 @@ func main()  {
 		fmt.Printf(err.Error())
 	}
 
-	jst, _ := time.LoadLocation("Asia/Tokyo")
+	utc := time.Now().UTC()
+	jst, err := time.LoadLocation("Asia/Tokyo")
+	if err != nil {
+    	fmt.Printf(err.Error())
+	}
 	
 	device := Device {
 		SerialNumber: devices[0].Serial_number,
-		TargetDate: time.Now().In(jst),
+		TargetDate: utc.In(jst),
 		Temperature: devices[0].Newest_events.Te.Val,
 		Humidity: devices[0].Newest_events.Hu.Val,
 		Illumination: devices[0].Newest_events.Il.Val,
