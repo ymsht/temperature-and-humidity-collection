@@ -58,6 +58,8 @@ func main()  {
 		Movement: devices[0].Newest_events.Mo.Val,
 	}
 
+	fmt.Printf("%s\n", device.TargetDate)
+
 	err = tx.Insert(&device)
 	if err != nil {
 		fmt.Printf(err.Error())
