@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"time"
+	"log"
 
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
@@ -21,6 +22,12 @@ type Device struct {
 	Movement float32 `db:"movement"`
 }
 
+type GorpTracer struct{}
+
+func (t *GorpTracer) Printf(format string, v ...interface{}) {
+    log.Printf(format, v...)
+}
+
 func main()  {
 	sdk := sdk.NatureRemoSdk{Token: "Bearer "}
 	devices, err := sdk.GetDevice()
@@ -37,6 +44,9 @@ func main()  {
 	dbmap := &gorp.DbMap{Db: db, Dialect: dialect}
 	dbmap.AddTableWithName(Device{}, "deveices").SetKeys(false, "Device_id")
 	defer dbmap.Db.Close()
+
+	tracer := &GorpTracer{}
+	dbmap.TraceOn("[SQL]", tracer)
 
 	tx, err := dbmap.Begin()
 	if err != nil {
@@ -57,8 +67,6 @@ func main()  {
 		Illumination: devices[0].Newest_events.Il.Val,
 		Movement: devices[0].Newest_events.Mo.Val,
 	}
-
-	fmt.Printf("%s\n", device.TargetDate)
 
 	err = tx.Insert(&device)
 	if err != nil {
