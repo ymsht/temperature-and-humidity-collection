@@ -4,12 +4,15 @@ import (
 	"fmt"
 	"time"
 	"log"
+	"os"
 
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
 	"gopkg.in/gorp.v2"
 
 	sdk "github.com/ymsht/nature-remo-sdk"
+
+	log "github.com/sirupsen/logrus"
 )
 
 type Device struct {
@@ -25,19 +28,23 @@ type Device struct {
 type GorpTracer struct{}
 
 func (t *GorpTracer) Printf(format string, v ...interface{}) {
-    log.Printf(format, v...)
+	log.Info(format, v...
 }
 
 func main()  {
+	log.SetFormatter(&log.JSONFormatter{})
+	log.SetOutput(os.Stdout)
+	log.SetLevel(log.InfoLevel)
+
 	sdk := sdk.NatureRemoSdk{Token: "Bearer "}
 	devices, err := sdk.GetDevice()
 	if err != nil {
-		fmt.Printf(err.Error())
+		log.Error(err.Error())
 	}
 
 	db, err := sql.Open("mysql", "user:password@tcp(localhost:3306)/db?parseTime=true&loc=Asia%2FTokyo")
 	if err != nil {
-		fmt.Printf(err.Error())
+		log.Error(err.Error())
 	}
 
 	dialect := gorp.MySQLDialect{Engine: "InnoDB", Encoding: "UTF8"}
@@ -50,13 +57,13 @@ func main()  {
 
 	tx, err := dbmap.Begin()
 	if err != nil {
-		fmt.Printf(err.Error())
+		log.Error(err.Error())
 	}
 
 	utc := time.Now().UTC()
 	jst, err := time.LoadLocation("Asia/Tokyo")
 	if err != nil {
-    	fmt.Printf(err.Error())
+    	log.Error(err.Error())
 	}
 	
 	device := Device {
@@ -70,7 +77,7 @@ func main()  {
 
 	err = tx.Insert(&device)
 	if err != nil {
-		fmt.Printf(err.Error())
+		log.Error(err.Error())
 	}
 
 	tx.Commit()
