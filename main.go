@@ -1,9 +1,7 @@
 package main
 
 import (
-	"fmt"
 	"time"
-	"log"
 	"os"
 
 	"database/sql"
@@ -28,7 +26,7 @@ type Device struct {
 type GorpTracer struct{}
 
 func (t *GorpTracer) Printf(format string, v ...interface{}) {
-	log.Info(format, v...
+	log.Info(v...)
 }
 
 func main()  {
