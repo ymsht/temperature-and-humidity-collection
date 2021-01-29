@@ -31,8 +31,14 @@ func (t *GorpTracer) Printf(format string, v ...interface{}) {
 
 func main()  {
 	log.SetFormatter(&log.JSONFormatter{})
-	log.SetOutput(os.Stdout)
 	log.SetLevel(log.InfoLevel)
+	file, err := os.OpenFile("temperature-and-humidity-collection.log", os.O_CREATE | os.O_WRONLY | os.O_APPEND, 0666)
+	if err == nil {
+		log.SetOutput(file)
+	} else {
+		log.Info("File open error.")
+		os.Exit(1)
+	}
 
 	sdk := sdk.NatureRemoSdk{Token: "Bearer "}
 	devices, err := sdk.GetDevice()
